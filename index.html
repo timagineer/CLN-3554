@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,7 +82,12 @@
     }
 
     @layer base {
-      *, *::before, *::after { box-sizing: border-box; }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
 
       html {
         font-family: var(--font-sans);
@@ -97,13 +103,20 @@
         min-block-size: 100vh;
       }
 
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         margin: 0;
         font-weight: 600;
         line-height: 1.2;
       }
 
-      p { margin: 0; }
+      p {
+        margin: 0;
+      }
 
       label {
         display: block;
@@ -115,7 +128,8 @@
         text-transform: uppercase;
       }
 
-      select, input[type="date"] {
+      select,
+      input[type="date"] {
         inline-size: 100%;
         padding-block: var(--space-2);
         padding-inline: var(--space-3);
@@ -139,11 +153,13 @@
         cursor: pointer;
       }
 
-      select:hover, input[type="date"]:hover {
+      select:hover,
+      input[type="date"]:hover {
         border-color: var(--color-border-strong);
       }
 
-      select:focus, input[type="date"]:focus {
+      select:focus,
+      input[type="date"]:focus {
         border-color: var(--color-focus);
         box-shadow: 0 0 0 3px hsl(216 82% 46% / 0.15);
       }
@@ -181,9 +197,42 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-block: var(--space-4);
+        padding-block: var(--space-3) var(--space-3);
         padding-inline: var(--space-5);
         border-block-end: 1px solid var(--color-border);
+        background: none;
+        border-inline: none;
+        border-block-start: none;
+        font-family: var(--font-sans);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text);
+        cursor: pointer;
+        inline-size: 100%;
+        text-align: start;
+        border-radius: 0;
+      }
+
+      .filter-panel-header:hover {
+        background: var(--color-surface-alt);
+      }
+
+      .filter-panel-header:focus-visible {
+        outline: 2px solid var(--color-focus);
+        outline-offset: -2px;
+      }
+
+      .filter-panel-header svg.chevron {
+        margin-inline-start: auto;
+        color: var(--color-text-muted);
+      }
+
+      .filter-panel-header[aria-expanded="false"] svg.chevron {
+        transform: rotate(-90deg);
+      }
+
+      .filter-panel-header[aria-expanded="true"] svg.chevron {
+        transform: rotate(0deg);
       }
 
       .filter-panel-title {
@@ -197,6 +246,20 @@
 
       .filter-panel-title svg {
         color: var(--color-text-muted);
+      }
+
+      /* Main filters collapsible */
+      .main-filters-content {
+        display: grid;
+        grid-template-rows: 1fr;
+      }
+
+      .main-filters-content[aria-hidden="true"] {
+        grid-template-rows: 0fr;
+      }
+
+      .main-filters-inner {
+        overflow: hidden;
       }
 
       .filter-body {
@@ -213,11 +276,15 @@
       }
 
       @media (max-width: 64rem) {
-        .filter-grid { grid-template-columns: repeat(2, 1fr); }
+        .filter-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       @media (max-width: 40rem) {
-        .filter-grid { grid-template-columns: 1fr; }
+        .filter-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       .filter-row {
@@ -248,10 +315,14 @@
         font-family: var(--font-sans);
         font-size: 0.8125rem;
         font-weight: 500;
-        color: var(--color-accent);
+        color: var(--color-text);
         cursor: pointer;
         inline-size: 100%;
         text-align: start;
+      }
+
+      .advanced-toggle svg:not(.chevron) {
+        color: var(--color-text-muted);
       }
 
       .advanced-toggle:focus-visible {
@@ -259,27 +330,33 @@
         outline-offset: -2px;
       }
 
-      .advanced-toggle svg.chevron {
-        margin-inline-start: auto;
-        transition: transform var(--duration-short-3) var(--ease-in-out-ui);
-      }
-
       .advanced-toggle[aria-expanded="true"] svg.chevron {
         transform: rotate(180deg);
       }
 
       .advanced-toggle:hover {
-        background: var(--color-accent-subtle);
+        background: var(--color-surface-alt);
       }
 
-      .advanced-filters-content {
+      .advanced-filters-content,
+      .main-filters-content {
         display: grid;
         grid-template-rows: 0fr;
         transition: grid-template-rows var(--duration-medium-1) var(--ease-out-ui);
       }
 
-      .advanced-filters-content[aria-hidden="false"] {
+      .main-filters-content {
         grid-template-rows: 1fr;
+      }
+
+      .advanced-filters-content[aria-hidden="false"],
+      .main-filters-content[aria-hidden="false"] {
+        grid-template-rows: 1fr;
+      }
+
+      .main-filters-content[aria-hidden="true"],
+      .advanced-filters-content[aria-hidden="true"] {
+        grid-template-rows: 0fr;
       }
 
       .advanced-filters-inner {
@@ -298,7 +375,9 @@
       }
 
       @media (max-width: 64rem) {
-        .advanced-filters-grid { grid-template-columns: repeat(2, 1fr); }
+        .advanced-filters-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       /* Actions row */
@@ -328,8 +407,8 @@
         border: 1px solid transparent;
         outline: none;
         transition: background var(--duration-short-2) var(--ease-hover),
-                    border-color var(--duration-short-2) var(--ease-hover),
-                    color var(--duration-short-2) var(--ease-hover);
+          border-color var(--duration-short-2) var(--ease-hover),
+          color var(--duration-short-2) var(--ease-hover);
         block-size: 2.25rem;
       }
 
@@ -515,25 +594,32 @@
         border-width: 0;
       }
 
-      .hidden { display: none !important; }
+      .hidden {
+        display: none !important;
+      }
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .advanced-filters-content {
+      .advanced-filters-content,
+      .main-filters-content {
         transition: grid-template-rows var(--duration-medium-1) var(--ease-out-ui);
       }
-      .advanced-toggle svg.chevron {
+
+      .advanced-toggle svg.chevron,
+      .filter-panel-header svg.chevron {
         transition: transform var(--duration-short-3) var(--ease-in-out-ui);
       }
+
       .btn {
         transition: background var(--duration-short-2) var(--ease-hover),
-                    border-color var(--duration-short-2) var(--ease-hover),
-                    color var(--duration-short-2) var(--ease-hover),
-                    transform var(--duration-short-1) var(--ease-out-ui);
+          border-color var(--duration-short-2) var(--ease-hover),
+          color var(--duration-short-2) var(--ease-hover),
+          transform var(--duration-short-1) var(--ease-out-ui);
       }
     }
   </style>
 </head>
+
 <body>
 
   <header class="page-header">
@@ -545,228 +631,225 @@
     <!-- Filter Panel -->
     <section class="filter-panel" aria-label="Billing filters">
 
-      <div class="filter-panel-header">
+      <button class="filter-panel-header" type="button" aria-expanded="true" aria-controls="main-filters-panel" id="main-toggle-btn">
         <div class="filter-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
           </svg>
           Filters
         </div>
-      </div>
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
 
-      <div class="filter-body">
-        <!-- Row 1 -->
-        <div class="filter-grid">
-          <div>
-            <label for="status">Status</label>
-            <select id="status" name="status">
-              <option value="">All statuses</option>
-              <option value="paid">Paid</option>
-              <option value="pending">Pending</option>
-              <option value="overdue">Overdue</option>
-              <option value="draft">Draft</option>
-            </select>
-          </div>
-          <div>
-            <label for="customer">Customer</label>
-            <select id="customer" name="customer">
-              <option value="">All customers</option>
-              <option value="acme">Acme Corp</option>
-              <option value="initech">Initech</option>
-              <option value="umbrella">Umbrella Ltd</option>
-              <option value="globex">Globex</option>
-            </select>
-          </div>
-          <div>
-            <label for="date-from">Date from</label>
-            <input type="date" id="date-from" name="date_from">
-          </div>
-          <div>
-            <label for="date-to">Date to</label>
-            <input type="date" id="date-to" name="date_to">
-          </div>
+      <div class="main-filters-content" id="main-filters-panel" aria-hidden="false">
+        <div class="main-filters-inner">
 
-          <hr class="filter-divider" role="separator">
-
-          <!-- Row 2 -->
-          <div>
-            <label for="billing-period">Billing period</label>
-            <select id="billing-period" name="billing_period">
-              <option value="">Any period</option>
-              <option value="jan">January 2025</option>
-              <option value="feb">February 2025</option>
-              <option value="mar">March 2025</option>
-              <option value="q1">Q1 2025</option>
-              <option value="q2">Q2 2025</option>
-            </select>
-          </div>
-          <div>
-            <label for="payment-method">Payment method</label>
-            <select id="payment-method" name="payment_method">
-              <option value="">All methods</option>
-              <option value="card">Credit card</option>
-              <option value="ach">ACH / Bank transfer</option>
-              <option value="wire">Wire transfer</option>
-              <option value="check">Check</option>
-            </select>
-          </div>
-          <div>
-            <label for="due-from">Due from</label>
-            <input type="date" id="due-from" name="due_from">
-          </div>
-          <div>
-            <label for="due-to">Due to</label>
-            <input type="date" id="due-to" name="due_to">
-          </div>
-
-          <hr class="filter-divider" role="separator">
-
-          <!-- Row 3 -->
-          <div>
-            <label for="currency">Currency</label>
-            <select id="currency" name="currency">
-              <option value="">All currencies</option>
-              <option value="usd">USD — US Dollar</option>
-              <option value="eur">EUR — Euro</option>
-              <option value="gbp">GBP — British Pound</option>
-              <option value="cad">CAD — Canadian Dollar</option>
-            </select>
-          </div>
-          <div>
-            <label for="type">Invoice type</label>
-            <select id="type" name="type">
-              <option value="">All types</option>
-              <option value="standard">Standard</option>
-              <option value="recurring">Recurring</option>
-              <option value="credit">Credit note</option>
-              <option value="proforma">Pro-forma</option>
-            </select>
-          </div>
-          <div>
-            <label for="amount-min">Min amount</label>
-            <select id="amount-min" name="amount_min">
-              <option value="">No minimum</option>
-              <option value="100">$100</option>
-              <option value="500">$500</option>
-              <option value="1000">$1,000</option>
-              <option value="5000">$5,000</option>
-            </select>
-          </div>
-          <div>
-            <label for="amount-max">Max amount</label>
-            <select id="amount-max" name="amount_max">
-              <option value="">No maximum</option>
-              <option value="500">$500</option>
-              <option value="1000">$1,000</option>
-              <option value="5000">$5,000</option>
-              <option value="10000">$10,000</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Advanced filters -->
-      <div class="advanced-section">
-        <button
-          class="advanced-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="advanced-filters-panel"
-          id="advanced-toggle-btn"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.07 4.93l-1.41 1.41M5.34 5.34L6.75 6.75M4.93 19.07l1.41-1.41M18.66 18.66l-1.41-1.41M21 12h-2M5 12H3M12 21v-2M12 5V3"/>
-          </svg>
-          Advanced filters
-          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
-        </button>
-
-        <div
-          class="advanced-filters-content"
-          id="advanced-filters-panel"
-          aria-hidden="true"
-        >
-          <div class="advanced-filters-inner">
-            <div class="advanced-filters-grid">
-              <!-- Advanced Row 1 -->
+          <div class="filter-body">
+            <!-- Row 1 -->
+            <div class="filter-grid">
               <div>
-                <label for="account-manager">Account manager</label>
-                <select id="account-manager" name="account_manager">
-                  <option value="">All managers</option>
-                  <option value="alex">Alex Rivera</option>
-                  <option value="sam">Sam Chen</option>
-                  <option value="jordan">Jordan Lee</option>
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="">All statuses</option>
+                  <option value="paid">Paid</option>
+                  <option value="pending">Pending</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="draft">Draft</option>
                 </select>
               </div>
               <div>
-                <label for="region">Region</label>
-                <select id="region" name="region">
-                  <option value="">All regions</option>
-                  <option value="na">North America</option>
-                  <option value="eu">Europe</option>
-                  <option value="apac">Asia Pacific</option>
-                  <option value="latam">Latin America</option>
+                <label for="customer">Customer</label>
+                <select id="customer" name="customer">
+                  <option value="">All customers</option>
+                  <option value="acme">Acme Corp</option>
+                  <option value="initech">Initech</option>
+                  <option value="umbrella">Umbrella Ltd</option>
+                  <option value="globex">Globex</option>
                 </select>
               </div>
               <div>
-                <label for="created-from">Created from</label>
-                <input type="date" id="created-from" name="created_from">
+                <label for="date-from">Date from</label>
+                <input type="date" id="date-from" name="date_from">
               </div>
               <div>
-                <label for="created-to">Created to</label>
-                <input type="date" id="created-to" name="created_to">
+                <label for="date-to">Date to</label>
+                <input type="date" id="date-to" name="date_to">
               </div>
 
-              <!-- Separator between advanced rows -->
               <hr class="filter-divider" role="separator">
 
-              <!-- Advanced Row 2 -->
+              <!-- Row 2 -->
               <div>
-                <label for="tax-status">Tax status</label>
-                <select id="tax-status" name="tax_status">
-                  <option value="">All</option>
-                  <option value="taxed">Taxed</option>
-                  <option value="exempt">Tax exempt</option>
-                  <option value="reverse">Reverse charge</option>
+                <label for="billing-period">Billing period</label>
+                <select id="billing-period" name="billing_period">
+                  <option value="">Any period</option>
+                  <option value="jan">January 2025</option>
+                  <option value="feb">February 2025</option>
+                  <option value="mar">March 2025</option>
+                  <option value="q1">Q1 2025</option>
+                  <option value="q2">Q2 2025</option>
                 </select>
               </div>
               <div>
-                <label for="project">Project</label>
-                <select id="project" name="project">
-                  <option value="">All projects</option>
-                  <option value="alpha">Project Alpha</option>
-                  <option value="beta">Project Beta</option>
-                  <option value="gamma">Project Gamma</option>
+                <label for="payment-method">Payment method</label>
+                <select id="payment-method" name="payment_method">
+                  <option value="">All methods</option>
+                  <option value="card">Credit card</option>
+                  <option value="ach">ACH / Bank transfer</option>
+                  <option value="wire">Wire transfer</option>
+                  <option value="check">Check</option>
                 </select>
               </div>
               <div>
-                <label for="paid-from">Paid from</label>
-                <input type="date" id="paid-from" name="paid_from">
+                <label for="due-from">Due from</label>
+                <input type="date" id="due-from" name="due_from">
               </div>
               <div>
-                <label for="paid-to">Paid to</label>
-                <input type="date" id="paid-to" name="paid_to">
+                <label for="due-to">Due to</label>
+                <input type="date" id="due-to" name="due_to">
+              </div>
+
+              <hr class="filter-divider" role="separator">
+
+              <!-- Row 3 -->
+              <div>
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency">
+                  <option value="">All currencies</option>
+                  <option value="usd">USD — US Dollar</option>
+                  <option value="eur">EUR — Euro</option>
+                  <option value="gbp">GBP — British Pound</option>
+                  <option value="cad">CAD — Canadian Dollar</option>
+                </select>
+              </div>
+              <div>
+                <label for="type">Invoice type</label>
+                <select id="type" name="type">
+                  <option value="">All types</option>
+                  <option value="standard">Standard</option>
+                  <option value="recurring">Recurring</option>
+                  <option value="credit">Credit note</option>
+                  <option value="proforma">Pro-forma</option>
+                </select>
+              </div>
+              <div>
+                <label for="amount-min">Min amount</label>
+                <select id="amount-min" name="amount_min">
+                  <option value="">No minimum</option>
+                  <option value="100">$100</option>
+                  <option value="500">$500</option>
+                  <option value="1000">$1,000</option>
+                  <option value="5000">$5,000</option>
+                </select>
+              </div>
+              <div>
+                <label for="amount-max">Max amount</label>
+                <select id="amount-max" name="amount_max">
+                  <option value="">No maximum</option>
+                  <option value="500">$500</option>
+                  <option value="1000">$1,000</option>
+                  <option value="5000">$5,000</option>
+                  <option value="10000">$10,000</option>
+                </select>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+
+          <!-- Advanced filters -->
+          <div class="advanced-section">
+            <button class="advanced-toggle" type="button" aria-expanded="false" aria-controls="advanced-filters-panel" id="advanced-toggle-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              Advanced filters
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+
+            <div class="advanced-filters-content" id="advanced-filters-panel" aria-hidden="true">
+              <div class="advanced-filters-inner">
+                <div class="advanced-filters-grid">
+                  <!-- Advanced Row 1 -->
+                  <div>
+                    <label for="account-manager">Account manager</label>
+                    <select id="account-manager" name="account_manager">
+                      <option value="">All managers</option>
+                      <option value="alex">Alex Rivera</option>
+                      <option value="sam">Sam Chen</option>
+                      <option value="jordan">Jordan Lee</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="region">Region</label>
+                    <select id="region" name="region">
+                      <option value="">All regions</option>
+                      <option value="na">North America</option>
+                      <option value="eu">Europe</option>
+                      <option value="apac">Asia Pacific</option>
+                      <option value="latam">Latin America</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="created-from">Created from</label>
+                    <input type="date" id="created-from" name="created_from">
+                  </div>
+                  <div>
+                    <label for="created-to">Created to</label>
+                    <input type="date" id="created-to" name="created_to">
+                  </div>
+
+                  <!-- Separator between advanced rows -->
+                  <hr class="filter-divider" role="separator">
+
+                  <!-- Advanced Row 2 -->
+                  <div>
+                    <label for="tax-status">Tax status</label>
+                    <select id="tax-status" name="tax_status">
+                      <option value="">All</option>
+                      <option value="taxed">Taxed</option>
+                      <option value="exempt">Tax exempt</option>
+                      <option value="reverse">Reverse charge</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="project">Project</label>
+                    <select id="project" name="project">
+                      <option value="">All projects</option>
+                      <option value="alpha">Project Alpha</option>
+                      <option value="beta">Project Beta</option>
+                      <option value="gamma">Project Gamma</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="paid-from">Paid from</label>
+                    <input type="date" id="paid-from" name="paid_from">
+                  </div>
+                  <div>
+                    <label for="paid-to">Paid to</label>
+                    <input type="date" id="paid-to" name="paid_to">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.advanced-section -->
+        </div><!-- /.main-filters-inner -->
+      </div><!-- /.main-filters-content -->
 
       <!-- Action buttons -->
       <div class="filter-actions">
         <button type="button" class="btn btn-ghost" id="reset-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-            <path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
           </svg>
           Reset filters
         </button>
         <button type="button" class="btn btn-primary" id="apply-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"/>
+            <polyline points="20 6 9 17 4 12" />
           </svg>
           Apply filters
         </button>
@@ -872,14 +955,18 @@
 
   <script>
     (function () {
-      const toggleBtn = document.getElementById('advanced-toggle-btn');
-      const panel = document.getElementById('advanced-filters-panel');
+      function wireToggle(btnId, panelId) {
+        const btn = document.getElementById(btnId);
+        const panel = document.getElementById(panelId);
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          panel.setAttribute('aria-hidden', String(expanded));
+        });
+      }
 
-      toggleBtn.addEventListener('click', () => {
-        const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-        toggleBtn.setAttribute('aria-expanded', String(!expanded));
-        panel.setAttribute('aria-hidden', String(expanded));
-      });
+      wireToggle('main-toggle-btn', 'main-filters-panel');
+      wireToggle('advanced-toggle-btn', 'advanced-filters-panel');
 
       document.getElementById('reset-btn').addEventListener('click', () => {
         document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
@@ -888,4 +975,5 @@
     })();
   </script>
 </body>
+
 </html>
