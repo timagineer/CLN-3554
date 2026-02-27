@@ -448,6 +448,23 @@
         transform: scale(0.98);
       }
 
+      .btn-gray {
+        background: hsl(220, 20%, 98%);
+        background: oklch(98% 0.005 250);
+        color: var(--color-text-muted);
+        border-color: var(--color-border);
+      }
+
+      .btn-gray:hover {
+        background: var(--color-surface-alt);
+        color: var(--color-text);
+        border-color: var(--color-border-strong);
+      }
+
+      .btn-gray:active {
+        transform: scale(0.98);
+      }
+
       /* Data table */
       .table-container {
         background: var(--color-surface);
@@ -840,7 +857,7 @@
 
       <!-- Action buttons -->
       <div class="filter-actions">
-        <button type="button" class="btn btn-ghost" id="reset-btn">
+        <button type="button" class="btn btn-gray" id="reset-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
             <path d="M3 3v5h5" />
